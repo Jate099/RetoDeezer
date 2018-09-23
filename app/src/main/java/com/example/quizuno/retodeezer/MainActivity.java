@@ -3,6 +3,12 @@ package com.example.quizuno.retodeezer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.deezer.sdk.model.Album;
 import com.deezer.sdk.network.connect.DeezerConnect;
@@ -15,10 +21,36 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ListView lv_listas;
+    EditText et_busqueda;
+    Button btn_buscar;
+
+    ListasAdapter customAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        et_busqueda = findViewById(R.id.et_busqueda);
+        btn_buscar = findViewById(R.id.btn_buscar);
+
+        lv_listas=findViewById(R.id.lv_listas);
+
+        customAdapter = new ListasAdapter(this);
+        lv_listas.setAdapter(customAdapter);
+
+        Lista lista1 = new Lista("EDM", "BitBird Radio", "102" );
+        customAdapter.agergarLista(lista1);
+
+        lv_listas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Lista lista_click = (Lista) customAdapter.getItem(position);
+                Toast.makeText(MainActivity.this, lista_click.getNombre(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         String applicationID = "298324";
         DeezerConnect deezerConnect = new DeezerConnect(this, applicationID);
