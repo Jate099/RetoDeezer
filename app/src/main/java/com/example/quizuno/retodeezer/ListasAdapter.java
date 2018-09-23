@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ListasAdapter extends BaseAdapter {
 
-    ArrayList<Lista> listas;
+   ArrayList<Lista> listas;
     Activity activity;
 
     public ListasAdapter(Activity activity){
